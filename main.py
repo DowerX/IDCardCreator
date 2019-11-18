@@ -2,14 +2,14 @@ import win32gui
 import pyscreenshot
 import subprocess
 
-def getWindowPos(name):
-    return win32gui.GetWindowRect(win32gui.FindWindow(None, name))
-
 def saveScreen( path, _bbox):
     im = pyscreenshot.grab(bbox=_bbox)
     im.save(path)
 
 if __name__ == "__main__":
-    pos = getWindowPos("xd.txt - Notepad")
-    saveScreen( "cam.png", pos)
-    subprocess.call(["D:/Programming/c#/sdlidcard/sdlidcard/bin/Release/netcoreapp3.0/win-x64/sdlidcard.exe", "D:/Programming/c#/sdlidcard/sdlidcard/bin/Release/netcoreapp3.0/win-x64/IranNationalCard.png", "./cam.png", "./idcard.png"])
+    hwnd = win32gui.FindWindow(None, "EOS Camera Movie Record")
+    win32gui.SetForegroundWindow(hwnd)
+    pos = win32gui.GetWindowRect(hwnd)
+    saveScreen("temp.png", pos)
+    win32gui.ShowWindow(hwnd, 0)
+    subprocess.call(["./sdlidcard/bin/Release/netcoreapp3.0/win-x64/sdlidcard.exe", "./IranNationalCard.png", "./cam.png", "./idcard.png"])
